@@ -7,7 +7,7 @@ app.controller('aCtrl', function($scope,$http) {
 		meSpeak.loadVoice('mespeak/voices/fr.json')
 	}
 	$scope.speak = function (text) {
-		meSpeak.speak(text, {variant: 'whisperf'})
+		meSpeak.speak(text)//, {variant: 'whisperf'})
 	}
 	$scope.speakSentence = function () {
 		$scope.speak($scope.text)
