@@ -3,11 +3,18 @@ var app = angular.module('app', [])
 app.controller('aCtrl', function($scope,$http) {
 	$scope.text = 'écrivez dans la case'
 	$scope.loadConfig = function () {
-		meSpeak.loadConfig('mespeak/mespeak_config.json')
-		meSpeak.loadVoice('mespeak/voices/fr.json')
+		//
 	}
 	$scope.speak = function (text) {
-		meSpeak.speak(text)//, {variant: 'whisperf'})
+		VoiceRSS.speech({
+			key: '8ecbeaf9be624d42a397627b0791ffba',
+			src: text,
+			hl: 'fr-fr',
+			r: 0, 
+			c: 'mp3',
+			f: '44khz_16bit_stereo',
+			ssml: false
+		})
 	}
 	$scope.speakSentence = function () {
 		$scope.speak($scope.text)
