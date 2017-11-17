@@ -2,6 +2,7 @@ var app = angular.module('app', [])
 
 app.controller('aCtrl', function($scope,$interval,$filter) {
 	$scope.every = 5
+	$scope.target = '16:30'
 	$scope.newTime = function() {
 		$scope.time = $filter('date')(new Date(), 'HH:mm')
 	}
@@ -26,8 +27,12 @@ app.controller('aCtrl', function($scope,$interval,$filter) {
 	$scope.checkTime = function() {
 		var oldTime = $scope.time
 		$scope.newTime()
-		if (oldTime!==$scope.time&&$scope.time.split(':')[1]%$scope.every==0) {
-			$scope.speakSentence()
+		if (oldTime!==$scope.time) {
+			if (false) {
+				$scope.speakSentence()
+			} else if ($scope.time.split(':')[1]%$scope.every==0) {
+				$scope.speakSentence()
+			}
 		}
 	}
 	$scope.speakSentence()
