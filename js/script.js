@@ -1,9 +1,13 @@
 var app = angular.module('app', [])
 
-app.controller('aCtrl', function($scope,$http) {
-	$scope.text = 'écrivez dans la case'
-	$scope.loadConfig = function () {
-		//
+app.controller('aCtrl', function($scope,$interval,$filter) {
+	$scope.every = 5
+	$scope.newTime = function() {
+		$scope.time = $filter('date')(new Date(), 'HH:mm')
+	}
+	$scope.textualTime = function () {
+		$scope.newTime()
+		return 'Il est '+$scope.time+'.'
 	}
 	$scope.speak = function (text) {
 		VoiceRSS.speech({
@@ -17,8 +21,15 @@ app.controller('aCtrl', function($scope,$http) {
 		})
 	}
 	$scope.speakSentence = function () {
-		$scope.speak($scope.text)
+		$scope.speak($scope.textualTime())
 	}
-	$scope.loadConfig()
+	$scope.checkTime = function() {
+		var oldTime = $scope.time
+		$scope.newTime()
+		if (oldTime!==$scope.time&&$scope.time.split(':')[1]%$scope.every==0) {
+			$scope.speakSentence()
+		}
+	}
 	$scope.speakSentence()
+	$interval($scope.checkTime,1000)
 })
