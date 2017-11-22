@@ -1,4 +1,5 @@
 var app = angular.module('app', [])
+var player = new talkify.TtsPlayer()
 
 app.controller('aCtrl', function($scope,$interval,$filter) {
 	$scope.every = 5
@@ -9,16 +10,11 @@ app.controller('aCtrl', function($scope,$interval,$filter) {
 		$scope.newTime()
 		return 'Il est '+$scope.time+'.'
 	}
+	$scope.config = function() {
+		talkify.config.remoteService.apiKey = '89a07461-ccd4-4c46-a894-b01863a0312c'
+	}
 	$scope.speak = function (text) {
-		VoiceRSS.speech({
-			key: '8ecbeaf9be624d42a397627b0791ffba',
-			src: text,
-			hl: 'fr-fr',
-			r: 0, 
-			c: 'mp3',
-			f: '44khz_16bit_stereo',
-			ssml: false
-		})
+		player.playText(text)
 	}
 	$scope.speakSentence = function () {
 		$scope.speak($scope.textualTime())
@@ -30,6 +26,7 @@ app.controller('aCtrl', function($scope,$interval,$filter) {
 			$scope.speakSentence()
 		}
 	}
+	$scope.config()
 	$scope.speakSentence()
 	$interval($scope.checkTime,1000)
 })
